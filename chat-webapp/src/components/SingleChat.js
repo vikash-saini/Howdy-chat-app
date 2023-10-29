@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
+import { Avatar } from "@chakra-ui/avatar";
 import ScrollableChat from "./ScrollableChat";
 // import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
@@ -15,7 +16,7 @@ import animationData from "../animations/typing.json";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../context/ChatProvider";
-const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = "http://localhost:4000";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -72,7 +73,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
+      // socket.emit("stop typing", selectedChat._id);
+      console.log(selectedChat);
       try {
         const config = {
           headers: {
@@ -85,7 +87,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           "/api/message",
           {
             content: newMessage,
-            chatId: selectedChat,
+            chatId: selectedChat._id,
           },
           config
         );
@@ -107,10 +109,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
+    socket.on("connected", () => {
+      setSocketConnected(true);
+    });
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-
     // eslint-disable-next-line
   }, []);
 
@@ -168,22 +171,42 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             px={2}
             w="100%"
             fontFamily="Work sans"
-            d="flex"
+            display="flex"
             justifyContent={{ base: "space-between" }}
             alignItems="center"
           >
-            <IconButton
-              d={{ base: "flex", md: "none" }}
+            {/* <IconButton
+              display={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
-            />
+            /> */}
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <>
-                  {getSender(user, selectedChat.users)}
-                  <ProfileModal
+                  <Box display="flex" alignItems="center">
+                    <ProfileModal
+                      user={getSenderFull(user, selectedChat.users)}
+                    >
+                      <Avatar
+                        size="sm"
+                        cursor="pointer"
+                        name={selectedChat.users[1].name}
+                        src={selectedChat.users[1].pic}
+                      />
+                    </ProfileModal>
+                    <Text
+                      fontSize={{ base: "28px", md: "30px" }}
+                      px={2}
+                      w="100%"
+                      fontFamily="Work sans"
+                    >
+                      {getSender(user, selectedChat.users)}
+                    </Text>
+                  </Box>
+
+                  {/* <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
-                  />
+                  /> */}
                 </>
               ) : (
                 <>
@@ -197,7 +220,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ))}
           </Text>
           <Box
-            d="flex"
+            display="flex"
             flexDir="column"
             justifyContent="flex-end"
             p={3}
@@ -242,7 +265,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <Input
                 variant="filled"
                 bg="#E0E0E0"
-                placeholder="Enter a message.."
+                placeholder="Type a message..."
                 value={newMessage}
                 onChange={typingHandler}
               />
@@ -251,7 +274,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         </>
       ) : (
         // to get socket.io on same page
-        <Box d="flex" alignItems="center" justifyContent="center" h="100%">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          h="100%"
+        >
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting
           </Text>

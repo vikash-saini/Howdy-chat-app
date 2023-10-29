@@ -6,6 +6,7 @@
   /* background-image: url("./background.png"); */
   background-position: center;
   background-size: cover;
+  background-color: #6B46C1;
 }
 
 ::-webkit-scrollbar {
@@ -54,4 +55,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.react-tel-input .form-control{
+  width: fit-content;
+
+}
+.PhoneInputInput{
+  border-bottom: 1px solid #ccc;
 }

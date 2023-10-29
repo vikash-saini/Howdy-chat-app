@@ -29,6 +29,7 @@ import ProfileModal from "./ProfileModal";
 import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../context/ChatProvider";
+import { BsSearch } from "react-icons/bs";
 
 export default function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -53,7 +54,6 @@ export default function SideDrawer() {
     localStorage.removeItem("userInfo");
     history.push("/");
   };
-  
 
   const handleSearch = async () => {
     if (!search) {
@@ -77,7 +77,6 @@ export default function SideDrawer() {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -93,8 +92,6 @@ export default function SideDrawer() {
   };
 
   const accessChat = async (userId) => {
-    console.log(userId);
-
     try {
       setLoadingChat(true);
       const config = {
@@ -124,69 +121,18 @@ export default function SideDrawer() {
   return (
     <>
       <Box
-        d="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        bg="white"
-        w="100%"
-        p="5px 10px 5px 10px"
-        borderWidth="5px"
+        // display="flex"
+        // justifyContent="space-between"
+        // alignItems="center"
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
-            <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px={4}>
+            <BsSearch />           
+            <Text d={{ base: "none", md: "flex" }} px={3}>
               Search User
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
-        </Text>
-        <div>
-          <Menu>
-            <MenuButton p={1}>
-              {/* <NotificationBadge
-                count={notification.length}
-                effect={Effect.SCALE}
-              /> */}
-              <BellIcon fontSize="2xl" m={1} />
-            </MenuButton>
-            <MenuList pl={2}>
-              {!notification.length && "No New Messages"}
-              {notification.map((notif) => (
-                <MenuItem
-                  key={notif._id}
-                  onClick={() => {
-                    setSelectedChat(notif.chat);
-                    setNotification(notification.filter((n) => n !== notif));
-                  }}
-                >
-                  {notif.chat.isGroupChat
-                    ? `New Message in ${notif.chat.chatName}`
-                    : `New Message from ${getSender(user, notif.chat.users)}`}
-                </MenuItem>
-              ))}
-            </MenuList>
-          </Menu>
-          <Menu>
-            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
-              <Avatar
-                size="sm"
-                cursor="pointer"
-                name={user.name}
-                src={user.pic}
-              />
-            </MenuButton>
-            <MenuList>
-              <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>{" "}
-              </ProfileModal>
-              <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-            </MenuList>
-          </Menu>
-        </div>
       </Box>
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
@@ -194,7 +140,7 @@ export default function SideDrawer() {
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">Search Users</DrawerHeader>
           <DrawerBody>
-            <Box d="flex" pb={2}>
+            <Box display="flex" pb={2}>
               <Input
                 placeholder="Search by name or email"
                 mr={2}
@@ -214,7 +160,7 @@ export default function SideDrawer() {
                 />
               ))
             )}
-            {loadingChat && <Spinner ml="auto" d="flex" />}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

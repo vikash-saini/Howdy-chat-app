@@ -59,7 +59,7 @@ import {
           },
         };
         const { data } = await axios.get(`/api/user?search=${search}`, config);
-        console.log(data);
+        // console.log(data);
         setLoading(false);
         setSearchResult(data);
       } catch (error) {
@@ -151,7 +151,7 @@ import {
               </FormControl>
               <FormControl>
                 <Input
-                  placeholder="Add Users eg: John, Piyush, Jane"
+                  placeholder="Add Users eg: John, Jane"
                   mb={1}
                   onChange={(e) => handleSearch(e.target.value)}
                 />
@@ -182,7 +182,7 @@ import {
             </ModalBody>
             <ModalFooter>
               <Button onClick={handleSubmit} colorScheme="blue">
-                Create Chat
+                Create
               </Button>
             </ModalFooter>
           </ModalContent>

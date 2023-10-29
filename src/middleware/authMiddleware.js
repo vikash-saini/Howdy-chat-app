@@ -6,7 +6,7 @@ const {verifyToken} = require('../config/generateToken');
 
 const validateUser = asyncHandler(async(req, res, next)=>{
     let token;
-    console.log("headers: ",req.headers);
+    // console.log("headers: ",req.headers);
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
 
@@ -15,10 +15,10 @@ const validateUser = asyncHandler(async(req, res, next)=>{
 
         // decode token id
         const decoded = verifyToken(token);
-        console.log("decorded ",decoded);
+        // console.log("decorded ",decoded);
 
         req.user = await User.findById(decoded.id).select("-password");
-        console.log("req.user ",req.user);
+        // console.log("req.user ",req.user);
         next();
         
         } catch (error) {

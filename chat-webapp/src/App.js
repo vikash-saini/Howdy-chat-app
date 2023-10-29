@@ -9,20 +9,6 @@ import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 
 function App() {
-  // const fetchMovies= async()=>{
-  //   try {
-  //   const res=  await axios.get('/allMovies');
-  //   console.log(res.data);
-  //   } catch (error) {
-
-  //   }
-
-  // }
-  // useEffect(()=>{
-  //   console.log("hello");
-  //   fetchMovies();
-  // },[])
-
   return (
     <div className="App">
     
