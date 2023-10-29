@@ -1,7 +1,10 @@
 # howdy-chat-app
 
-howdy-chat-app is a Full Stack Chatting App.
-Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.
+howdy-chat-app is a MERN Stack Chatting App.
+
+1. Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.
+2. User Firebase for Phone munber Authentication with OTP
+
 ## Tech Stack
 
 **Client:** React JS
@@ -17,7 +20,7 @@ Install dependencies
 ```
 
 ```bash
-  cd frontend/
+  cd chat-webapp/
   npm install
 ```
 
@@ -26,10 +29,11 @@ Start the server
 ```bash
   npm run start
 ```
+
 Start the Client
 
 ```bash
   //open now terminal
-  cd frontend
+  cd chat-webapp/
   npm start
 ```
